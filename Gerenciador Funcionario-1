@@ -1,0 +1,73 @@
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Scanner;
+
+class Funcionario {
+    String nome;
+    int id;
+    double salario;
+
+    Funcionario(String nome, int id, double salario) {
+        this.nome = nome;
+        this.id = id;
+        this.salario = salario;
+    }
+
+    public String toString() {
+        return "ID: " + id + ", Nome: " + nome + ", Salário: " + salario;
+    }
+}
+
+public class GerenciadorFuncionario {  
+    static Map<Integer, Funcionario> funcionarios = new HashMap<>();  
+    static Scanner scanner = new Scanner(System.in);
+
+    // Método para adicionar um funcionário
+    public static void adicionarFuncionario() {
+        System.out.print("Nome: ");
+        String nome = scanner.nextLine();
+        System.out.print("ID: ");
+        int id = scanner.nextInt();
+        System.out.print("Salário: ");
+        double salario = scanner.nextDouble();
+        scanner.nextLine();  // Limpar o buffer
+        
+        funcionarios.put(id, new Funcionario(nome, id, salario));  
+        System.out.println("Funcionário adicionado!");
+    }
+
+    // Método para remover um funcionário
+    public static void removerFuncionario() {
+        System.out.print("ID do funcionário a remover: ");
+        int id = scanner.nextInt();
+        scanner.nextLine();  // Limpar o buffer
+        funcionarios.remove(id);  // Usando a variável 'funcionarios' corretamente
+        System.out.println("Funcionário removido!");
+    }
+
+    // Método para exibir todos os funcionários
+    public static void exibirFuncionarios() {
+        if (funcionarios.isEmpty()) {
+            System.out.println("Nenhum funcionário cadastrado.");
+        } else {
+            for (Funcionario f : funcionarios.values()) {
+                System.out.println(f);
+            }
+        }
+    }
+
+    // Método principal
+    public static void main(String[] args) {
+        while (true) {
+            System.out.println("1. Adicionar\n2. Remover\n3. Exibir\n4. Sair");
+            int opcao = scanner.nextInt();
+            scanner.nextLine();  // Limpar o buffer
+            
+            if (opcao == 1) adicionarFuncionario();
+            else if (opcao == 2) removerFuncionario();
+            else if (opcao == 3) exibirFuncionarios();  
+            else if (opcao == 4) break;
+            else System.out.println("Opção inválida!");
+        }
+    }
+}
