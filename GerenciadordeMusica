@@ -1,0 +1,121 @@
+import java.util.ArrayList;
+import java.util.Scanner;
+
+// Classe para representar uma música
+class Musica {
+    private String titulo;
+    private String artista;
+    private double duracao;
+
+    public Musica(String titulo, String artista, double duracao) {
+        this.titulo = titulo;
+        this.artista = artista;
+        this.duracao = duracao;
+    }
+
+    public String getTitulo() {
+        return titulo;
+    }
+
+    public double getDuracao() {
+        return duracao;
+    }
+
+    @Override
+    public String toString() {
+        return "Título: " + titulo + ", Artista: " + artista + ", Duração: " + duracao + " min";
+    }
+}
+
+// Classe para gerenciar a playlist
+class Playlist {
+    private ArrayList<Musica> musicas;
+
+    public Playlist() {
+        this.musicas = new ArrayList<>();
+    }
+
+    public void adicionarMusica(String titulo, String artista, double duracao) {
+        musicas.add(new Musica(titulo, artista, duracao));
+        System.out.println("Música adicionada com sucesso!");
+    }
+
+    public void removerMusica(String titulo) {
+        boolean removida = musicas.removeIf(musica -> musica.getTitulo().equalsIgnoreCase(titulo));
+        if (removida) {
+            System.out.println("Música removida com sucesso!");
+        } else {
+            System.out.println("Música não encontrada!");
+        }
+    }
+
+    public void listarMusicas() {
+        if (musicas.isEmpty()) {
+            System.out.println("A playlist está vazia.");
+        } else {
+            System.out.println("Playlist:");
+            for (Musica musica : musicas) {
+                System.out.println(musica);
+            }
+        }
+    }
+
+    public void exibirDuracaoTotal() {
+        double duracaoTotal = 0;
+        for (Musica musica : musicas) {
+            duracaoTotal += musica.getDuracao();
+        }
+        System.out.println("Duração total da playlist: " + duracaoTotal + " minutos");
+    }
+}
+
+// Classe principal para interagir com o usuário
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        Playlist playlist = new Playlist();
+        int opcao;
+
+        do {
+            System.out.println("\nGerenciador de Playlist");
+            System.out.println("1. Adicionar Música");
+            System.out.println("2. Remover Música");
+            System.out.println("3. Listar Músicas");
+            System.out.println("4. Exibir Duração Total");
+            System.out.println("5. Sair");
+            System.out.print("Escolha uma opção: ");
+            opcao = scanner.nextInt();
+            scanner.nextLine(); // Consumir nova linha
+
+            switch (opcao) {
+                case 1:
+                    System.out.print("Digite o título da música: ");
+                    String titulo = scanner.nextLine();
+                    System.out.print("Digite o artista: ");
+                    String artista = scanner.nextLine();
+                    System.out.print("Digite a duração (minutos): ");
+                    double duracao = scanner.nextDouble();
+                    playlist.adicionarMusica(titulo, artista, duracao);
+                    break;
+                case 2:
+                    System.out.print("Digite o título da música a ser removida: ");
+                    String tituloRemover = scanner.nextLine();
+                    playlist.removerMusica(tituloRemover);
+                    break;
+                case 3:
+                    playlist.listarMusicas();
+                    break;
+                case 4:
+                    playlist.exibirDuracaoTotal();
+                    break;
+                case 5:
+                    System.out.println("Saindo...");
+                    break;
+                default:
+                    System.out.println("Opção inválida! Tente novamente.");
+            }
+        } while (opcao != 5);
+
+        scanner.close();
+    }
+}
